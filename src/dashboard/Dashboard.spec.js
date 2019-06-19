@@ -55,6 +55,7 @@ describe('<Dashboard>', () => {
 
             //click lock gate button should now toggle closed/open and locked/unlocked
             fireEvent.click(lockGate)
+            
 
              //what happens when lock gate is clicked -- toggle per above
              expect(getByText(/closed/i)).toBeTruthy
