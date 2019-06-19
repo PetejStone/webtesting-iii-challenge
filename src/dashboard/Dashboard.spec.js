@@ -67,7 +67,6 @@ describe('<Dashboard>', () => {
             const close = getByText(/^close gate$/i)
             //lock gate should now be deactivated
              
-
             //close button must be clicked first to activate lock gate
             fireEvent.click(close)
 
