@@ -29,6 +29,7 @@ describe('<Dashboard>', () => {
 
             //click button
             fireEvent.click(close)
+            
 
             //what happens when close is clicked
             expect(getByText(/closed/i)).toBeTruthy
