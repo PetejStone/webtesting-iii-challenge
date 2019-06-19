@@ -7,14 +7,16 @@ import { render } from '@testing-library/react';
 import Dashboard from './Dashboard';
 
 
-describe('<Display>', () => {
-    it('runs test', () => {
-        expect(true).toBe(true)
+//checks dashboard display
+describe('<Dashboard>', () => {
+    describe('Dashboard content', () => {
+        it('renders controls and display', () => {
+            const { getByText } = render(<Dashboard />)
+            getByText(/unlocked/i)
+            getByText(/open/i)
+            getByText(/lock gate/i)
+            getByText(/close gate/i)
+        })
     })
-
-
-  it('matches snapshot', () => {
-      const { snapshot } = render(<Dashboard />)
-      expect(snapshot).toMatchSnapshot()
-  })
+    
 })
