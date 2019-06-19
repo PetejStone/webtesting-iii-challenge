@@ -93,15 +93,9 @@ describe('<Dashboard>', () => {
              //open gate button now visible but disabled
              const openGate = getByText(/^open gate$/i)
 
-            
-            // what happens when user "clicks", or tries to click open
-             fireEvent.click(openGate)
-
-             //nothing changes from last update when clicked because it is disabled
-             expect(getByText(/closed/i)).toBeTruthy
-             expect(getByText(/unlock gate/i)).toBeTruthy
-             expect(getByText(/open gate/i)).toBeTruthy
-             expect(getByText(/locked/i)).toBeTruthy
+             expect(openGate).toBeDisabled()
+           
+          
             })
 
         it('should test OPEN GATE button', () => {
@@ -135,14 +129,10 @@ describe('<Dashboard>', () => {
              //lock gate now visible 
              const lockGate = getByText(/^lock gate$/i)
 
-             //user tries to click lockgate
-            fireEvent.click(lockGate)
+             expect(lockGate).toBeDisabled()
+            
 
-            //nothing changes from last update since lock gate is disabled
-            expect(getByText(/open/i)).toBeTruthy
-            expect(getByText(/close gate/i)).toBeTruthy
-            expect(getByText(/lock gate/i)).toBeTruthy
-            expect(getByText(/^unlocked$/i)).toBeTruthy
+          
 
         })
 
