@@ -88,8 +88,8 @@ describe('<Dashboard>', () => {
 
             //tests for red class for closed
 
-            const openClose= getByTestId("openClose")
-            expect(toggleLock).toHaveClass("red-led");
+            const openClose = getByTestId("openClose")
+            expect(openClose).toHaveClass("red-led");
 
              //open gate button now visible but disabled
              const openGate = getByText(/^open gate$/i)
@@ -106,7 +106,7 @@ describe('<Dashboard>', () => {
             })
 
         it('should test OPEN GATE button', () => {
-            const { getByText, getAllByText, queryByText } = render(<Dashboard />)
+            const { getByText, getByTestId } = render(<Dashboard />)
             const close = getByText(/^close gate$/i)
            
 
@@ -127,6 +127,11 @@ describe('<Dashboard>', () => {
             expect(getByText(/close gate/i)).toBeTruthy
             expect(getByText(/lock gate/i)).toBeTruthy
             expect(getByText(/^unlocked$/i)).toBeTruthy
+
+            //tests for green class for unlocked
+
+            const openClose= getByTestId("openClose")
+            expect(openClose).toHaveClass("green-led");
 
              //lock gate now visible 
              const lockGate = getByText(/^lock gate$/i)
