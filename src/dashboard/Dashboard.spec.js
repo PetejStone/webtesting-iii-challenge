@@ -21,20 +21,46 @@ describe('<Dashboard>', () => {
     })
 
     describe('button behavior', () => {
-        it('toggle locked and open status', () => {
+        it('toggle locked and open status for CLOSE GATE', () => {
             const { getByText, getAllByText, queryByText } = render(<Dashboard />)
+            
+            //find lock gate button
+            const lockGate = getByText(/^lock gate$/i)
+
+            //click button
+            fireEvent.click(lockGate)
+
+            //what happens when lock gate is clicked -- (nothing changes)
+            expect(getByText(/open/i)).toBeTruthy
+            expect(getByText(/lock gate/i)).toBeTruthy
+            expect(getByText(/close gate/i)).toBeTruthy
+
+
+            
 
             //find close button
             const close = getByText(/^close gate$/i)
 
             //click button
             fireEvent.click(close)
-            
+
 
             //what happens when close is clicked
             expect(getByText(/closed/i)).toBeTruthy
             expect(getByText(/lock gate/i)).toBeTruthy
             expect(getByText(/open gate/i)).toBeTruthy
+
+            //lock gate should now be deactivated
+             
+
+            //click lock gate button should now toggle closed/open and locked/unlocked
+            fireEvent.click(lockGate)
+
+             //what happens when lock gate is clicked -- toggle per above
+             expect(getByText(/closed/i)).toBeTruthy
+             expect(getByText(/unlock gate/i)).toBeTruthy
+             expect(getByText(/open gate/i)).toBeTruthy
+             expect(getByText(/locked/i)).toBeTruthy
 
         })
     })
