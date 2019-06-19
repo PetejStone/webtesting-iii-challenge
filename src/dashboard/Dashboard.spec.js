@@ -30,14 +30,11 @@ describe('<Dashboard>', () => {
             
     
 
-            //click lock gate (deactivated)
-            fireEvent.click(lockGate)
+            //lock gate should be disabled
 
-            //lockgate button should be deativated so nothing changes
-            expect(getByText(/open/i)).toBeTruthy
-            expect(getByText(/lock gate/i)).toBeTruthy
-            expect(getByText(/close gate/i)).toBeTruthy
+            expect(lockGate).toBeDisabled()
 
+          
             //click close
             fireEvent.click(close)
 
