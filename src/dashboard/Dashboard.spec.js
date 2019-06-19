@@ -4,6 +4,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/react/cleanup-after-each';
 //import renderer from 'react-test-renderer'; // 1: install this npm module as a dev dependency
+import 'jest-dom/extend-expect'
 
 import Dashboard from './Dashboard';
 
@@ -22,7 +23,7 @@ describe('<Dashboard>', () => {
 
     describe('button behavior', () => {
         it('toggle locked and open status for CLOSE GATE', () => {
-            const { getByText, getAllByText, queryByText } = render(<Dashboard />)
+            const { getByText,getByTestId } = render(<Dashboard />)
              //find lock gate button and close gate
              const lockGate = getByText(/^lock gate$/i)
              const close = getByText(/^close gate$/i)
@@ -44,10 +45,24 @@ describe('<Dashboard>', () => {
             expect(getByText(/closed/i)).toBeTruthy
             expect(getByText(/lock gate/i)).toBeTruthy
             expect(getByText(/open gate/i)).toBeTruthy
+
+            // const container = document.body
+            // const openClose = getByTestId(container, 'Open')
+            // //const close = getByTestId("openClose");
+
+            // tests for red class
+           const openClose = getByTestId("openClose")
+
+           expect(openClose).toHaveClass("red-led");
+
+            //tests for green class for unlocked
+
+            const toggleLock = getByTestId("toggleLock")
+            expect(toggleLock).toHaveClass("green-led");
         })
 
         it('should test LOCK GATE button', () => { 
-            const { getByText, getAllByText, queryByText } = render(<Dashboard />)
+            const { getByText, getByTestId } = render(<Dashboard />)
             const lockGate = getByText(/^lock gate$/i)
             const close = getByText(/^close gate$/i)
             //lock gate should now be deactivated
@@ -65,6 +80,16 @@ describe('<Dashboard>', () => {
              expect(getByText(/unlock gate/i)).toBeTruthy
              expect(getByText(/open gate/i)).toBeTruthy
              expect(getByText(/locked/i)).toBeTruthy
+
+             //tests for red class for unlocked
+
+            const toggleLock = getByTestId("toggleLock")
+            expect(toggleLock).toHaveClass("red-led");
+
+            //tests for red class for closed
+
+            const openClose= getByTestId("openClose")
+            expect(toggleLock).toHaveClass("red-led");
 
              //open gate button now visible but disabled
              const openGate = getByText(/^open gate$/i)
@@ -118,7 +143,7 @@ describe('<Dashboard>', () => {
         })
 
         it('should test UNLOCK GATE button', () => {
-            const { getByText, getAllByText, queryByText } = render(<Dashboard />)
+            const { getByText, getByTestId} = render(<Dashboard />)
             const close = getByText(/^close gate$/i)
             //click close gate first to activate lock gate
             fireEvent.click(close)
@@ -132,7 +157,7 @@ describe('<Dashboard>', () => {
              //find unlock gate buttton as it is now available
             const unlockGate = getByText(/^unlock gate$/i)
 
-            //click ulock gate
+            //click unlock gate
             fireEvent.click(unlockGate)
 
             //what happens when unlock gate is clicked -- reverse locked and make open gate available
@@ -141,6 +166,15 @@ describe('<Dashboard>', () => {
             expect(getByText(/open gate/i)).toBeTruthy
             expect(getByText(/^unlocked$/i)).toBeTruthy
 
+             // tests for red class for closed
+           const openClose = getByTestId("openClose")
+           expect(openClose).toHaveClass("red-led");
+
+           //tests for green class for unlocked
+
+           const toggleLock = getByTestId("toggleLock")
+           expect(openClose).toHaveClass("red-led");
+           expect(toggleLock).toHaveClass("green-led");
         })
 
     })
