@@ -88,7 +88,6 @@ describe('<Dashboard>', () => {
             expect(getByText(/lock gate/i)).toBeTruthy
             expect(getByText(/^unlocked$/i)).toBeTruthy
 
-
         })
 
         // it('should test unlock gate button', () => {
