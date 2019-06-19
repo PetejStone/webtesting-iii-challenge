@@ -29,10 +29,10 @@ describe('<Dashboard>', () => {
             
     
 
-            //click lock gate (deactivatd)
+            //click lock gate (deactivated)
             fireEvent.click(lockGate)
 
-            //lockgate button should be deativated
+            //lockgate button should be deativated so nothing changes
             expect(getByText(/open/i)).toBeTruthy
             expect(getByText(/lock gate/i)).toBeTruthy
             expect(getByText(/close gate/i)).toBeTruthy
@@ -53,12 +53,27 @@ describe('<Dashboard>', () => {
             //lock gate should now be deactivated
              
 
-            //click lock gate button should now toggle closed/open and locked/unlocked
+            //close button must be clicked first to activate lock gate
             fireEvent.click(close)
+
+            //click lock gate
             fireEvent.click(lockGate)
 
 
              //what happens when lock gate is clicked -- toggle per above
+             expect(getByText(/closed/i)).toBeTruthy
+             expect(getByText(/unlock gate/i)).toBeTruthy
+             expect(getByText(/open gate/i)).toBeTruthy
+             expect(getByText(/locked/i)).toBeTruthy
+
+             //open gate button now visible but disabled
+             const openGate = getByText(/^open gate$/i)
+
+            
+            // what happens when user "clicks", or tries to click open
+             fireEvent.click(openGate)
+
+             //nothing changes from last update when clicked because it is disabled
              expect(getByText(/closed/i)).toBeTruthy
              expect(getByText(/unlock gate/i)).toBeTruthy
              expect(getByText(/open gate/i)).toBeTruthy
@@ -73,7 +88,7 @@ describe('<Dashboard>', () => {
           
             
 
-            //click close gate gate
+            //click close gate gate first to activate open gate
             fireEvent.click(close)
 
             //open gate now available
@@ -82,7 +97,19 @@ describe('<Dashboard>', () => {
             //click open gate
             fireEvent.click(openGate)
 
-            //nothing should change as it is deactivated
+            //what happens when open gate is clicekd
+            expect(getByText(/open/i)).toBeTruthy
+            expect(getByText(/close gate/i)).toBeTruthy
+            expect(getByText(/lock gate/i)).toBeTruthy
+            expect(getByText(/^unlocked$/i)).toBeTruthy
+
+             //lock gate now visible 
+             const lockGate = getByText(/^lock gate$/i)
+
+             //user tries to click lockgate
+            fireEvent.click(lockGate)
+
+            //nothing changes from last update since lock gate is disabled
             expect(getByText(/open/i)).toBeTruthy
             expect(getByText(/close gate/i)).toBeTruthy
             expect(getByText(/lock gate/i)).toBeTruthy
@@ -90,26 +117,32 @@ describe('<Dashboard>', () => {
 
         })
 
-        // it('should test unlock gate button', () => {
-        //     const { getByText, getAllByText, queryByText } = render(<Dashboard />)
-        
-        //      //find unlock gate button
-        //     const unlockGate = getByText(/^unlock gate$/i)
+        it('should test UNLOCK GATE button', () => {
+            const { getByText, getAllByText, queryByText } = render(<Dashboard />)
+            const close = getByText(/^close gate$/i)
+            //click close gate first to activate lock gate
+            fireEvent.click(close)
 
-        //     //click button
-        //     fireEvent.click(unlockGate)
+            //lock gate now available
+            const lockGate = getByText(/^lock gate$/i)
 
-        //     //what happens when unlock gate is clicked -- reverse locked and make open gate available
-        //     expect(getByText(/closed/i)).toBeTruthy
-        //     expect(getByText(/lock gate/i)).toBeTruthy
-        //     expect(getByText(/open gate/i)).toBeTruthy
-        //     expect(getByText(/locked/i)).toBeTruthy
+            //click lock gate to activate unlock gate
+            fireEvent.click(lockGate)
 
-        // })
+             //find unlock gate buttton as it is now available
+            const unlockGate = getByText(/^unlock gate$/i)
 
-         
-        
-        
+            //click ulock gate
+            fireEvent.click(unlockGate)
+
+            //what happens when unlock gate is clicked -- reverse locked and make open gate available
+            expect(getByText(/^closed$/i)).toBeTruthy
+            expect(getByText(/lock gate/i)).toBeTruthy
+            expect(getByText(/open gate/i)).toBeTruthy
+            expect(getByText(/^unlocked$/i)).toBeTruthy
+
+        })
+
     })
     
 })
