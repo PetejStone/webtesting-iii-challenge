@@ -1,7 +1,8 @@
 // Test away
 // Test away!
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/react/cleanup-after-each';
 //import renderer from 'react-test-renderer'; // 1: install this npm module as a dev dependency
 
 import Dashboard from './Dashboard';
@@ -16,6 +17,24 @@ describe('<Dashboard>', () => {
             getByText(/open/i)
             getByText(/lock gate/i)
             getByText(/close gate/i)
+        })
+    })
+
+    describe('button behavior', () => {
+        it('toggle locked and open status', () => {
+            const { getByText, getAllByText, queryByText } = render(<Dashboard />)
+
+            //find close button
+            const close = getByText(/^close gate$/i)
+
+            //click button
+            fireEvent.click(close)
+
+            //what happens when close is clicked
+            expect(getByText(/closed/i)).toBeTruthy
+            expect(getByText(/lock gate/i)).toBeTruthy
+            expect(getByText(/open gate/i)).toBeTruthy
+
         })
     })
     
